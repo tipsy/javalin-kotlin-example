@@ -8,9 +8,7 @@ fun main(args: Array<String>) {
 
     val userDao = UserDao()
 
-    val app = Javalin
-            .create()
-            .port(7000)
+    val app = Javalin.create().port(7000)
 
     app.exception(Exception::class.java) { e, req, res -> e.printStackTrace() }
 
@@ -47,4 +45,5 @@ fun main(args: Array<String>) {
 
 }
 
-fun Request.bp(key: String): String = this.bodyParam(key) //adds .bp alias for .bodyParam on Request object
+//adds .bp alias for .bodyParam on Request object
+fun Request.bp(key: String): String = this.bodyParam(key)
