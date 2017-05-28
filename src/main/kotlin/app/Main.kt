@@ -1,8 +1,8 @@
 package app
 
 import app.user.UserDao
-import javalin.Javalin
-import javalin.Request
+import io.javalin.Javalin
+import io.javalin.Request
 
 fun main(args: Array<String>) {
 
@@ -42,6 +42,10 @@ fun main(args: Array<String>) {
         userDao.delete(req.param("id").toInt())
         res.status(204)
     }
+
+    app.error(404) { req, res ->
+        res.json("""{"error": "Not found"}""");
+    };
 
 }
 
