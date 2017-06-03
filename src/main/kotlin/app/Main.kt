@@ -1,8 +1,8 @@
 package app
 
+import app.user.User
 import app.user.UserDao
 import io.javalin.Javalin
-import io.javalin.Request
 
 fun main(args: Array<String>) {
 
@@ -25,15 +25,16 @@ fun main(args: Array<String>) {
         }
 
         post("/users/create") { req, res ->
-            userDao.save(name = req.bp("name"), email = req.bp("email"))
+            val user = req.bodyAsClass(User::class.java)
+            userDao.save(name = user.name, email = user.email)
             res.status(201)
         }
 
         patch("/users/update/:id") { req, res ->
+            val user = req.bodyAsClass(User::class.java)
             userDao.update(
                     id = req.param("id").toInt(),
-                    name = req.bp("name"),
-                    email = req.bp("email")
+                    user = user
             )
             res.status(204)
         }
@@ -54,6 +55,3 @@ fun main(args: Array<String>) {
     }
 
 }
-
-//adds .bp alias for .bodyParam on Request object
-fun Request.bp(key: String): String = this.bodyParam(key)

@@ -28,8 +28,8 @@ class UserDao {
         return users.values.find { it.email == email } // == is equivalent to java .equals() (referential equality is checked by ===)
     }
 
-    fun update(id: Int, name: String, email: String) {
-        users.put(id, User(name = name, email = email, id = id))
+    fun update(id: Int, user: User) {
+        users.put(id, User(name = user.name, email = user.email, id = id))
     }
 
     fun delete(id: Int) {
