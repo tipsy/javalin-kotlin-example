@@ -12,45 +12,45 @@ fun main(args: Array<String>) {
 
     with(app) {
 
-        get("/users") { req, res ->
-            res.json(userDao.users)
+        get("/users") { ctx ->
+            ctx.json(userDao.users)
         }
 
-        get("/users/:id") { req, res ->
-            res.json(userDao.findById(req.param("id")!!.toInt())!!)
+        get("/users/:id") { ctx ->
+            ctx.json(userDao.findById(ctx.param("id")!!.toInt())!!)
         }
 
-        get("/users/email/:email") { req, res ->
-            res.json(userDao.findByEmail(req.param("email")!!)!!)
+        get("/users/email/:email") { ctx ->
+            ctx.json(userDao.findByEmail(ctx.param("email")!!)!!)
         }
 
-        post("/users/create") { req, res ->
-            val user = req.bodyAsClass(User::class.java)
+        post("/users/create") { ctx ->
+            val user = ctx.bodyAsClass(User::class.java)
             userDao.save(name = user.name, email = user.email)
-            res.status(201)
+            ctx.status(201)
         }
 
-        patch("/users/update/:id") { req, res ->
-            val user = req.bodyAsClass(User::class.java)
+        patch("/users/update/:id") { ctx ->
+            val user = ctx.bodyAsClass(User::class.java)
             userDao.update(
-                    id = req.param("id")!!.toInt(),
+                    id = ctx.param("id")!!.toInt(),
                     user = user
             )
-            res.status(204)
+            ctx.status(204)
         }
 
-        delete("/users/delete/:id") { req, res ->
-            userDao.delete(req.param("id")!!.toInt())
-            res.status(204)
+        delete("/users/delete/:id") { ctx ->
+            userDao.delete(ctx.param("id")!!.toInt())
+            ctx.status(204)
         }
 
-        exception(Exception::class.java) { e, req, res ->
+        exception(Exception::class.java) { e, ctx ->
             e.printStackTrace()
         }
 
-        error(404) { req, res ->
-            res.json("error");
-        };
+        error(404) { ctx ->
+            ctx.json("error");
+        }
 
     }
 
