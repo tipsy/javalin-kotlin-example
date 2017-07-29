@@ -8,7 +8,7 @@ fun main(args: Array<String>) {
 
     val userDao = UserDao()
 
-    val app = Javalin.create().port(7000)
+    val app = Javalin.create().port(7000).start()
 
     with(app) {
 
