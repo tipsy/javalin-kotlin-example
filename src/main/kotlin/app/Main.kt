@@ -49,7 +49,7 @@ fun main(args: Array<String>) {
         }
 
         error(404) { ctx ->
-            ctx.json("error");
+            ctx.json("not found");
         }
 
     }
