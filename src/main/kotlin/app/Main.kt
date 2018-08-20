@@ -2,7 +2,7 @@ package app
 
 import app.user.User
 import app.user.UserDao
-import io.javalin.ApiBuilder.*
+import io.javalin.apibuilder.ApiBuilder.*
 import io.javalin.Javalin
 
 fun main(args: Array<String>) {
@@ -22,30 +22,30 @@ fun main(args: Array<String>) {
         }
 
         get("/users/:id") { ctx ->
-            ctx.json(userDao.findById(ctx.param("id")!!.toInt())!!)
+            ctx.json(userDao.findById(ctx.pathParam("id").toInt())!!)
         }
 
         get("/users/email/:email") { ctx ->
-            ctx.json(userDao.findByEmail(ctx.param("email")!!)!!)
+            ctx.json(userDao.findByEmail(ctx.pathParam("email"))!!)
         }
 
         post("/users/create") { ctx ->
-            val user = ctx.bodyAsClass(User::class.java)
+            val user = ctx.body<User>()
             userDao.save(name = user.name, email = user.email)
             ctx.status(201)
         }
 
         patch("/users/update/:id") { ctx ->
-            val user = ctx.bodyAsClass(User::class.java)
+            val user = ctx.body<User>()
             userDao.update(
-                    id = ctx.param("id")!!.toInt(),
+                    id = ctx.pathParam("id").toInt(),
                     user = user
             )
             ctx.status(204)
         }
 
         delete("/users/delete/:id") { ctx ->
-            userDao.delete(ctx.param("id")!!.toInt())
+            userDao.delete(ctx.pathParam("id").toInt())
             ctx.status(204)
         }
 
