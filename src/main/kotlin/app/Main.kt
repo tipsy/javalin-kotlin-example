@@ -16,6 +16,9 @@ fun main(args: Array<String>) {
 
     app.routes {
 
+        // this redirect shouldn't be here, but readers have complained about the 404 for the root path
+        get("/") { it.redirect("/users") }
+
         get("/users") { ctx ->
             ctx.json(userDao.users)
         }
